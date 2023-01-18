@@ -1,4 +1,4 @@
-require 'pry-byebug'
+require 'benchmark'
 
 def merge_sort(array)
   return array if array.length <= 1
@@ -23,6 +23,20 @@ def merge(left, right, result = [])
     result
 end
 
-test_array = [6,4,5,8,2,7,4,1,8]
+rand_array = Array.new(100) {|i| rand(100)}
+n = 10000
 
-p merge_sort(test_array)
+
+Benchmark.bm do |benchmark|
+  benchmark.report("Merge Sort") do
+    n.times do
+      merge_sort(rand_array)
+    end
+  end
+
+  benchmark.report("Standard Sort") do
+    n.times do
+      rand_array.sort
+    end
+  end
+end
